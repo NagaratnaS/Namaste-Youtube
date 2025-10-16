@@ -7,6 +7,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -53,24 +54,28 @@ const Header = () => {
             placeholder="Search"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            onFocus={() => setShowSuggestions(true)}
+            onBlur={() => setShowSuggestions(false)}
           />
           <button className="border border-gray-400 px-5 py-2 rounded-r-full bg-gray-100">
             Search
           </button>
         </div>
 
-        <div className="fixed bg-white py-2 px-5 w-[37rem] shadow-lg rounded-lg border border-gray-100">
-          <ul>
-            {suggestions &&
-              suggestions.map((s) => {
-                return (
-                  <li className="py-2 shadow-sm hover:bg-gray-100" key={s}>
-                    {s}
-                  </li>
-                );
-              })}
-          </ul>
-        </div>
+        {showSuggestions && (
+          <div className=" bg-white py-2 px-5 w-[37rem] shadow-lg rounded-lg border border-gray-100 absolute">
+            <ul>
+              {suggestions &&
+                suggestions.map((s) => {
+                  return (
+                    <li className="py-2 shadow-sm hover:bg-gray-100" key={s}>
+                      {s}
+                    </li>
+                  );
+                })}
+            </ul>
+          </div>
+        )}
       </div>
 
       <div className="col-span-1">
