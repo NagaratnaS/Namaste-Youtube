@@ -6,6 +6,7 @@ import { YOUTUBE_SEARCH_API } from "../utils/constant";
 const Header = () => {
   const dispatch = useDispatch();
   const [searchQuery, setSearchQuery] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -19,6 +20,7 @@ const Header = () => {
   const getSearchSuggestions = async () => {
     const data = await fetch(YOUTUBE_SEARCH_API + searchQuery);
     const json = await data?.json();
+    setSuggestions(json[1]);
   };
 
   const toggleMenuHandler = () => {
@@ -44,16 +46,31 @@ const Header = () => {
       </div>
 
       <div className="col-span-10 px-10">
-        <input
-          className="w-1/2 border border-gray-400 p-2 rounded-l-full"
-          type="text"
-          placeholder="Search"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <button className="border border-gray-400 px-5 py-2 rounded-r-full bg-gray-100">
-          Search
-        </button>
+        <div>
+          <input
+            className="w-1/2 border border-gray-400 p-2 rounded-l-full px-5 py-2 hover:bg-gray-100"
+            type="text"
+            placeholder="Search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <button className="border border-gray-400 px-5 py-2 rounded-r-full bg-gray-100">
+            Search
+          </button>
+        </div>
+
+        <div className="fixed bg-white py-2 px-5 w-[37rem] shadow-lg rounded-lg border border-gray-100">
+          <ul>
+            {suggestions &&
+              suggestions.map((s) => {
+                return (
+                  <li className="py-2 shadow-sm hover:bg-gray-100" key={s}>
+                    {s}
+                  </li>
+                );
+              })}
+          </ul>
+        </div>
       </div>
 
       <div className="col-span-1">
