@@ -49,11 +49,11 @@ const Comment = ({ data }) => {
 };
 
 const CommentsList = ({ comments }) => {
-  return comments.map((comment, index) => (
+  return comments?.map((comment, index) => (
     <div>
       <Comment key={index} data={comment} />
       <div className="pl-5 border-l-black ml-5">
-        {comment.replies && <CommentsList comments={comment.replies} />}
+        <CommentsList comments={comment?.replies} />
       </div>
     </div>
   ));
